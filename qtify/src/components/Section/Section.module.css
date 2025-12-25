@@ -15,20 +15,14 @@
   cursor: pointer;
 }
 
-.controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.slider {
-  display: flex;
-  gap: 20px;
-  overflow: hidden;
-}
-
 .grid {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+.carouselRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }

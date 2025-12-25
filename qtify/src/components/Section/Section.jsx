@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../Card/Card";
+import Carousel from "../Carousel/Carousel";
+import LeftButton from "../NavButton/LeftButton";
+import RightButton from "../NavButton/RightButton";
 import styles from "./Section.module.css";
 
 const Section = ({ title, endpoint }) => {
   const [albums, setAlbums] = useState([]);
   const [showAll, setShowAll] = useState(title === "Top Albums");
-  const [index, setIndex] = useState(0);
+
+  const prevId = `${title}-prev`;
+  const nextId = `${title}-next`;
 
   useEffect(() => {
     axios.get(endpoint).then((res) => setAlbums(res.data));
   }, [endpoint]);
-
-  const handleNext = () => {
-    setIndex((prev) => prev + 2);
-  };
-
-  const handlePrev = () => {
-    setIndex((prev) => Math.max(prev - 2, 0));
-  };
 
   return (
     <section
@@ -31,40 +28,39 @@ const Section = ({ title, endpoint }) => {
           className={styles.toggle}
           onClick={() => setShowAll(!showAll)}
         >
-          {showAll ? "Collapse" : "Show all"}
+          {showAll ? "Collapse" : "Show All"}
         </button>
       </div>
 
-      {!showAll && (
-        <div className={styles.controls}>
-          <button data-testid="prev-btn" onClick={handlePrev}>
-            {"<"}
-          </button>
-          <button data-testid="next-btn" onClick={handleNext}>
-            {">"}
-          </button>
-        </div>
-      )}
-
-      <div className={showAll ? styles.grid : styles.slider}>
-        {albums.map((album) => (
-          <div
-            key={album.id}
-            style={{
-              transform: showAll
-                ? "translateX(0)"
-                : `translateX(-${index * 180}px)`,
-              transition: "transform 0.3s ease",
-            }}
-          >
+      {showAll ? (
+        <div className={styles.grid}>
+          {albums.map((album) => (
             <Card
+              key={album.id}
               image={album.image}
               title={album.title}
               follows={album.follows}
             />
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.carouselRow}>
+          <LeftButton id={prevId} />
+          <Carousel
+            items={albums}
+            prevEl={`#${prevId}`}
+            nextEl={`#${nextId}`}
+            renderItem={(album) => (
+              <Card
+                image={album.image}
+                title={album.title}
+                follows={album.follows}
+              />
+            )}
+          />
+          <RightButton id={nextId} />
+        </div>
+      )}
     </section>
   );
 };
