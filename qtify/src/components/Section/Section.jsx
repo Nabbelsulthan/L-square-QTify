@@ -12,12 +12,13 @@ const Section = ({ title, endpoint }) => {
     axios.get(endpoint).then((res) => setAlbums(res.data));
   }, [endpoint]);
 
-  const handleNext = () => setIndex((prev) => prev + 2);
-  const handlePrev = () => setIndex((prev) => Math.max(prev - 2, 0));
+  const handleNext = () => {
+    setIndex((prev) => prev + 2);
+  };
 
-  const visibleAlbums = showAll
-    ? albums
-    : albums.slice(index, index + 6);
+  const handlePrev = () => {
+    setIndex((prev) => Math.max(prev - 2, 0));
+  };
 
   return (
     <section
@@ -36,19 +37,32 @@ const Section = ({ title, endpoint }) => {
 
       {!showAll && (
         <div className={styles.controls}>
-          <button data-testid="prev-btn" onClick={handlePrev}>{"<"}</button>
-          <button data-testid="next-btn" onClick={handleNext}>{">"}</button>
+          <button data-testid="prev-btn" onClick={handlePrev}>
+            {"<"}
+          </button>
+          <button data-testid="next-btn" onClick={handleNext}>
+            {">"}
+          </button>
         </div>
       )}
 
       <div className={showAll ? styles.grid : styles.slider}>
-        {visibleAlbums.map((album) => (
-          <Card
+        {albums.map((album) => (
+          <div
             key={album.id}
-            image={album.image}
-            title={album.title}
-            follows={album.follows}
-          />
+            style={{
+              transform: showAll
+                ? "translateX(0)"
+                : `translateX(-${index * 180}px)`,
+              transition: "transform 0.3s ease",
+            }}
+          >
+            <Card
+              image={album.image}
+              title={album.title}
+              follows={album.follows}
+            />
+          </div>
         ))}
       </div>
     </section>
