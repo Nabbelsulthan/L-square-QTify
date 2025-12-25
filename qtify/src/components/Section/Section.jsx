@@ -10,8 +10,8 @@ const Section = ({ title, endpoint }) => {
   const [albums, setAlbums] = useState([]);
   const [showAll, setShowAll] = useState(title === "Top Albums");
 
-  const prevId = `${title}-prev`;
-  const nextId = `${title}-next`;
+  const prevId = `${title.replace(" ", "-")}-prev`;
+  const nextId = `${title.replace(" ", "-")}-next`;
 
   useEffect(() => {
     axios.get(endpoint).then((res) => setAlbums(res.data));
@@ -26,13 +26,14 @@ const Section = ({ title, endpoint }) => {
         <h3>{title}</h3>
         <button
           className={styles.toggle}
-          onClick={() => setShowAll(!showAll)}
+          onClick={() => setShowAll((p) => !p)}
         >
           {showAll ? "Collapse" : "Show All"}
         </button>
       </div>
 
-      {showAll ? (
+      {/* GRID — rendered ONLY when showAll === true */}
+      {showAll && (
         <div className={styles.grid}>
           {albums.map((album) => (
             <Card
@@ -43,7 +44,10 @@ const Section = ({ title, endpoint }) => {
             />
           ))}
         </div>
-      ) : (
+      )}
+
+      {/* CAROUSEL — rendered ONLY when showAll === false */}
+      {!showAll && (
         <div className={styles.carouselRow}>
           <LeftButton id={prevId} />
           <Carousel

@@ -9,10 +9,7 @@ const Carousel = ({ items, renderItem, prevEl, nextEl }) => {
     <div className={styles.wrapper}>
       <Swiper
         modules={[Navigation]}
-        navigation={{
-          prevEl,
-          nextEl,
-        }}
+        navigation={{ prevEl, nextEl }}
         spaceBetween={20}
         breakpoints={{
           320: { slidesPerView: 2 },
@@ -21,9 +18,7 @@ const Carousel = ({ items, renderItem, prevEl, nextEl }) => {
         }}
       >
         {items.map((item) => (
-          <SwiperSlide key={item.id}>
-            {renderItem(item)}
-          </SwiperSlide>
+          <SwiperSlide key={item.id}>{renderItem(item)}</SwiperSlide>
         ))}
       </Swiper>
     </div>
