@@ -1,0 +1,26 @@
+.card {
+  width: 160px;
+  background-color: var(--color-black);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 180px;
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardFooter {
+  padding: 10px;
+}
+
+.cardFooter p {
+  margin-top: 6px;
+  font-size: 14px;
+}

@@ -10,6 +10,7 @@ const Hero = () => {
       </div>
       <img src={headphones} alt="Headphones" />
     </section>
+
   );
 };
 
