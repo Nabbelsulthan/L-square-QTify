@@ -1,0 +1,12 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 80px;
+  background-color: var(--color-black);
+}
+
+.hero-text h1,
+.hero-text h2 {
+  margin-bottom: 12px;
+}
