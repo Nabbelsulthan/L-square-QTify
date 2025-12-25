@@ -1,18 +1,18 @@
 import { Chip } from "@mui/material";
-import styles from "./Card.module.css";
+import styles from "./SongCard.module.css";
 
-const Card = ({ image, title, follows }) => {
+const SongCard = ({ image, title, likes }) => {
   return (
-    <div className={styles.card} data-testid="album-card">
+    <div className={styles.card} data-testid="song-card">
       <div className={styles.imageWrapper}>
         <img src={image} alt={title} />
       </div>
       <div className={styles.cardFooter}>
-        <Chip label={`${follows} Follows`} size="small" />
+        <Chip label={`${likes} Likes`} size="small" />
         <p>{title}</p>
       </div>
     </div>
   );
 };
 
-export default Card;
+export default SongCard;

@@ -3,24 +3,46 @@ import axios from "axios";
 import Card from "../Card/Card";
 import styles from "./Section.module.css";
 
-const Section = () => {
+const Section = ({ title, endpoint }) => {
   const [albums, setAlbums] = useState([]);
+  const [showAll, setShowAll] = useState(title === "Top Albums");
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    axios
-      .get("https://qtify-backend.labs.crio.do/albums/top")
-      .then((res) => setAlbums(res.data));
-  }, []);
+    axios.get(endpoint).then((res) => setAlbums(res.data));
+  }, [endpoint]);
+
+  const handleNext = () => setIndex((prev) => prev + 2);
+  const handlePrev = () => setIndex((prev) => Math.max(prev - 2, 0));
+
+  const visibleAlbums = showAll
+    ? albums
+    : albums.slice(index, index + 6);
 
   return (
-    <section className={styles.section}>
+    <section
+      className={styles.section}
+      data-testid={`${title.toLowerCase().replace(" ", "-")}-section`}
+    >
       <div className={styles.header}>
-        <h3>Top Albums</h3>
-        <button className={styles.collapse}>Collapse</button>
+        <h3>{title}</h3>
+        <button
+          className={styles.toggle}
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? "Collapse" : "Show all"}
+        </button>
       </div>
 
-      <div className={styles.grid}>
-        {albums.map((album) => (
+      {!showAll && (
+        <div className={styles.controls}>
+          <button data-testid="prev-btn" onClick={handlePrev}>{"<"}</button>
+          <button data-testid="next-btn" onClick={handleNext}>{">"}</button>
+        </div>
+      )}
+
+      <div className={showAll ? styles.grid : styles.slider}>
+        {visibleAlbums.map((album) => (
           <Card
             key={album.id}
             image={album.image}
