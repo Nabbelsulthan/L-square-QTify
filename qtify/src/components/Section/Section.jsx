@@ -8,7 +8,8 @@ import styles from "./Section.module.css";
 
 const Section = ({ title, endpoint }) => {
   const [albums, setAlbums] = useState([]);
-  const [showAll, setShowAll] = useState(title === "Top Albums");
+ const [showAll, setShowAll] = useState(false);
+
 
   const prevId = `${title.replace(" ", "-")}-prev`;
   const nextId = `${title.replace(" ", "-")}-next`;
